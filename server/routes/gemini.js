@@ -104,7 +104,7 @@ Be data-driven, specific with numbers, and honest about uncertainties. Focus on 
   try {
     const analysis = await callGemini(prompt, { temperature: 0.7, maxOutputTokens: 2048 });
     if (analysis) {
-      return res.json({ source: analysis.raw ? 'gemini' : 'gemini', analysis });
+      return res.json({ source: 'gemini', analysis });
     }
   } catch (err) {
     console.error('Gemini analyze error:', err.message);

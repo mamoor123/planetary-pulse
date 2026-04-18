@@ -201,7 +201,7 @@ router.post('/retire', async (req, res) => {
  */
 router.get('/impact', (req, res) => {
   const totalTonnes = parseFloat(req.query.tonnes);
-  const safeTonnes = isNaN(totalTonnes) ? MOCK_USER_PORTFOLIO.totalCredits : totalTonnes;
+  const safeTonnes = isNaN(totalTonnes) ? MOCK_USER_PORTFOLIO.totalCredits : Math.max(0, totalTonnes);
   
   res.json({
     totalTonnes: safeTonnes,

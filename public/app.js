@@ -555,15 +555,24 @@ function initCalculator() {
 }
 
 async function calculateCarbon() {
+  const getVal = (id, fallback) => {
+    const el = document.getElementById(id);
+    return el != null && el.value !== '' ? Number(el.value) : fallback;
+  };
+  const getStr = (id, fallback) => {
+    const el = document.getElementById(id);
+    return el?.value || fallback;
+  };
+
   const body = {
-    commute_km: parseInt(document.getElementById('commuteKm')?.value || 25),
-    commute_days: parseInt(document.getElementById('commuteDays')?.value || 5),
-    commute_mode: document.getElementById('commuteMode')?.value || 'car',
-    flights_per_year: parseInt(document.getElementById('flightsYear')?.value || 3),
-    diet: document.getElementById('dietType')?.value || 'medium_meat',
-    energy_source: document.getElementById('energySource')?.value || 'mixed_grid',
-    home_size: document.getElementById('homeSize')?.value || 'medium_house',
-    consumption_level: document.getElementById('consumptionLevel')?.value || 'average',
+    commute_km: getVal('commuteKm', 25),
+    commute_days: getVal('commuteDays', 5),
+    commute_mode: getStr('commuteMode', 'car'),
+    flights_per_year: getVal('flightsYear', 3),
+    diet: getStr('dietType', 'medium_meat'),
+    energy_source: getStr('energySource', 'mixed_grid'),
+    home_size: getStr('homeSize', 'medium_house'),
+    consumption_level: getStr('consumptionLevel', 'average'),
   };
 
   const res = await api('/carbon/calculate', {
