@@ -139,7 +139,7 @@ async function loadDashboard() {
   dashboard.dashboard.forEach(ds => { state.datasets[ds.id] = ds; });
 
   document.getElementById('metricsSource').textContent =
-    dashboard.source === 'snowflake' ? '● Snowflake' : '● Cached Data';
+    dashboard.source === 'snowflake' ? '● Snowflake' : '● Updated hourly';
 
   // Render metrics
   renderMetrics(dashboard.dashboard);
@@ -471,6 +471,14 @@ function initChat() {
   const form = document.getElementById('chatForm');
   const input = document.getElementById('chatInput');
 
+  // Chat suggestions
+  document.querySelectorAll('.chat-suggestion').forEach(btn => {
+    btn.addEventListener('click', () => {
+      input.value = btn.dataset.msg;
+      form.dispatchEvent(new Event('submit'));
+    });
+  });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const msg = input.value.trim();
@@ -682,20 +690,77 @@ async function loadPortfolio() {
   if (!res) return;
 
   const p = res.portfolio;
-  document.getElementById('portfolioStats').innerHTML = `
-    <div class="pstat"><div class="pstat-val" style="color:var(--green)">${p.totalCredits}t</div><div class="pstat-label">Total Credits</div></div>
-    <div class="pstat"><div class="pstat-val" style="color:var(--blue)">$${p.totalInvested}</div><div class="pstat-label">Invested</div></div>
-    <div class="pstat"><div class="pstat-val" style="color:var(--purple)">${p.offsets.length}</div><div class="pstat-label">Offsets</div></div>
-    <div class="pstat"><div class="pstat-val" style="color:var(--orange)">${p.impactMetrics.treesEquivalent}</div><div class="pstat-label">Trees Equiv.</div></div>
-  `;
 
-  document.getElementById('portfolioOffsets').innerHTML = p.offsets.map(o => `
-    <div class="offset-row">
-      <span>${o.credit_id}</span>
-      <span>${o.tonnes}t</span>
-      <span style="font-family:monospace;font-size:.65rem;color:var(--t3)">${o.tx_signature}</span>
-    </div>
-  `).join('');
+  // Check if portfolio is empty (demo mode)
+  const isEmpty = p.totalCredits === 0 && p.offsets.length === 0;
+
+  if (isEmpty) {
+    // Show demo data with clear labeling
+    document.getElementById('portfolioStats').innerHTML = `
+      <div class="pstat"><div class="pstat-val" style="color:var(--green)">2.4t</div><div class="pstat-label">Retired (Example)</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--blue)">1.2t</div><div class="pstat-label">Active (Example)</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--purple)">0.8t</div><div class="pstat-label">Sent (Example)</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--orange)">164</div><div class="pstat-label">Trees Equiv.</div></div>
+    `;
+
+    document.getElementById('portfolioOffsets').innerHTML = `
+      <div class="offset-row" style="opacity:.6">
+        <span>Amazon Reforestation</span><span>1.2t</span><span style="font-family:monospace;font-size:.65rem;color:var(--t3)">3xK9...7mPq</span>
+      </div>
+      <div class="offset-row" style="opacity:.6">
+        <span>Solar Farm India</span><span>0.8t</span><span style="font-family:monospace;font-size:.65rem;color:var(--t3)">8nW2...4kRt</span>
+      </div>
+      <div class="offset-row" style="opacity:.6">
+        <span>Mangrove Restoration</span><span>0.4t</span><span style="font-family:monospace;font-size:.65rem;color:var(--t3)">9pL5...2sVx</span>
+      </div>
+      <p style="font-size:.65rem;color:var(--t3);margin-top:.5rem;text-align:center;font-style:italic">Example portfolio — connect your wallet to see real data</p>
+    `;
+  } else {
+    document.getElementById('portfolioStats').innerHTML = `
+      <div class="pstat"><div class="pstat-val" style="color:var(--green)">${p.totalCredits}t</div><div class="pstat-label">Total Credits</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--blue)">$${p.totalInvested}</div><div class="pstat-label">Invested</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--purple)">${p.offsets.length}</div><div class="pstat-label">Offsets</div></div>
+      <div class="pstat"><div class="pstat-val" style="color:var(--orange)">${p.impactMetrics.treesEquivalent}</div><div class="pstat-label">Trees Equiv.</div></div>
+    `;
+
+    document.getElementById('portfolioOffsets').innerHTML = p.offsets.map(o => `
+      <div class="offset-row">
+        <span>${o.credit_id}</span>
+        <span>${o.tonnes}t</span>
+        <span style="font-family:monospace;font-size:.65rem;color:var(--t3)">${o.tx_signature}</span>
+      </div>
+    `).join('');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// Calculator Actions (Offset + Share)
+// ════════════════════════════════════════════════════════════════
+function goToCredits() {
+  // Switch to Carbon Credits tab
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(s => s.classList.remove('active'));
+  document.querySelector('[data-tab="credits"]').classList.add('active');
+  document.getElementById('tab-credits').classList.add('active');
+  state.activeTab = 'credits';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyFootprint() {
+  const total = document.getElementById('resultTotal').textContent;
+  const text = `🌍 My carbon footprint is ${total} tonnes CO₂/year. Calculate yours at ${window.location.origin}`;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy Result'; }, 2000);
+  });
+}
+
+function tweetFootprint() {
+  const total = document.getElementById('resultTotal').textContent;
+  const text = encodeURIComponent(`🌍 My carbon footprint is ${total} tonnes CO₂/year. Calculate yours and take climate action!`);
+  const url = encodeURIComponent(window.location.origin);
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
 }
 
 async function loadImpact() {

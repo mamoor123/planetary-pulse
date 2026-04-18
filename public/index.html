@@ -147,6 +147,13 @@
                         </div>
                     </div>
                 </div>
+                <div class="chat-suggestions" id="chatSuggestions">
+                    <button class="chat-suggestion" data-msg="What does 421 ppm CO₂ mean for the planet?">What does 421 ppm CO₂ mean?</button>
+                    <button class="chat-suggestion" data-msg="How can I reduce my carbon footprint?">How can I reduce my footprint?</button>
+                    <button class="chat-suggestion" data-msg="What's the biggest climate threat right now?">Biggest climate threat?</button>
+                    <button class="chat-suggestion" data-msg="Explain the 1.5°C target">Explain the 1.5°C target</button>
+                    <button class="chat-suggestion" data-msg="How do carbon credits work?">How do carbon credits work?</button>
+                </div>
                 <form class="chat-input" id="chatForm">
                     <input type="text" id="chatInput" placeholder="Ask about climate, carbon footprint, sustainability..." autocomplete="off" maxlength="500">
                     <button type="submit" class="btn-send">Send ➤</button>
@@ -266,6 +273,15 @@
                 <div class="result-comparison" id="resultComparison"></div>
                 <div class="result-breakdown" id="resultBreakdown"></div>
                 <div class="result-recommendations" id="resultRecommendations"></div>
+                <div class="calc-actions">
+                    <button class="btn-offset" id="btnOffset" onclick="goToCredits()">
+                        🪙 Offset with Carbon Credits →
+                    </button>
+                    <div class="share-row">
+                        <button class="btn-share" onclick="copyFootprint()">📋 Copy Result</button>
+                        <button class="btn-share" onclick="tweetFootprint()">🐦 Tweet</button>
+                    </div>
+                </div>
                 <div class="result-sources">
                     Sources: IPCC AR6, EPA, Our World in Data, Global Carbon Project 2024
                 </div>
@@ -275,6 +291,30 @@
 
     <!-- ═══ TAB: Carbon Credits ═══ -->
     <section class="tab-content" id="tab-credits">
+        <!-- How It Works -->
+        <div class="card credits-intro-card" style="margin-bottom:1.25rem">
+            <div class="card-header">
+                <span class="card-title">🌍 What Are Carbon Credits?</span>
+            </div>
+            <p class="credits-intro-text">Carbon credits represent <strong>1 tonne of CO₂ removed or avoided</strong>. When you buy a credit, you fund projects like reforestation, renewable energy, or direct air capture that reduce emissions elsewhere. It's a way to offset what you can't eliminate.</p>
+            <div class="how-it-works">
+                <div class="how-step">
+                    <div class="how-step-num">1</div>
+                    <div class="how-step-text"><strong>Calculate</strong><br>Measure your footprint with our calculator</div>
+                </div>
+                <div class="how-step-arrow">→</div>
+                <div class="how-step">
+                    <div class="how-step-num">2</div>
+                    <div class="how-step-text"><strong>Choose Credits</strong><br>Browse verified projects in the marketplace</div>
+                </div>
+                <div class="how-step-arrow">→</div>
+                <div class="how-step">
+                    <div class="how-step-num">3</div>
+                    <div class="how-step-text"><strong>Offset on Solana</strong><br>Retire credits on-chain for proof of impact</div>
+                </div>
+            </div>
+        </div>
+
         <div class="credits-layout">
             <div class="card portfolio-card">
                 <div class="card-header">
@@ -310,7 +350,7 @@
 
     <!-- ═══ Footer ═══ -->
     <footer>
-        <p>🌍 Built for the <strong>Build for the Planet</strong> Challenge — Earth Day 2025</p>
+        <p>🌍 Built for the <strong>Build for the Planet</strong> Challenge — Earth Day 2026</p>
         <p class="footer-tech">
             Backboard · Auth0 · Google Gemini · Snowflake · GitHub Copilot · Solana
         </p>

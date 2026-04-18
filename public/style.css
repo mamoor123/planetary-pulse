@@ -248,6 +248,37 @@ footer{position:relative;z-index:10;text-align:center;padding:2rem;color:var(--t
 .calc-form-card{height:fit-content}
 .calc-result-card{height:fit-content}
 
+/* ── Credits Intro ── */
+.credits-intro-card{background:linear-gradient(135deg,rgba(34,197,94,.06),rgba(14,165,233,.04))}
+.credits-intro-text{font-size:.85rem;color:var(--t2);line-height:1.6;margin-bottom:1.25rem}
+.how-it-works{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap}
+.how-step{text-align:center;padding:1rem 1.25rem;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);flex:1;min-width:160px;max-width:220px}
+.how-step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;margin:0 auto .6rem}
+.how-step-text{font-size:.78rem;color:var(--t2);line-height:1.4}
+.how-step-text strong{color:var(--t1);display:block;margin-bottom:.15rem}
+.how-step-arrow{font-size:1.25rem;color:var(--green);font-weight:700}
+
+/* ── Calculator Offset & Share ── */
+.calc-actions{margin-top:1.25rem;display:grid;gap:.6rem}
+.btn-offset{padding:.75rem 1.25rem;border-radius:12px;border:2px solid rgba(34,197,94,.3);background:linear-gradient(135deg,rgba(34,197,94,.12),rgba(14,165,233,.08));color:var(--green);font-size:.9rem;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.btn-offset:hover{background:linear-gradient(135deg,rgba(34,197,94,.2),rgba(14,165,233,.15));transform:translateY(-1px);box-shadow:0 4px 16px rgba(34,197,94,.15)}
+.share-row{display:flex;gap:.5rem}
+.btn-share{flex:1;padding:.6rem;border-radius:var(--rs);border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t2);font-size:.78rem;font-weight:500;cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.btn-share:hover{background:rgba(255,255,255,.08);color:var(--t1)}
+
+/* ── Chat Suggestions ── */
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:.4rem;padding:.75rem 0;border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.chat-suggestion{padding:.4rem .75rem;border-radius:99px;border:1px solid var(--border);background:rgba(255,255,255,.03);color:var(--t2);font-size:.72rem;cursor:pointer;transition:.2s;font-family:inherit}
+.chat-suggestion:hover{background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2);color:var(--green)}
+
+/* ── Loading Skeleton ── */
+.skeleton{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite;border-radius:var(--rs)}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-text{height:14px;margin-bottom:.5rem;width:80%}
+.skeleton-text.short{width:40%}
+.skeleton-circle{width:120px;height:120px;border-radius:50%}
+.skeleton-bar{height:6px;border-radius:99px}
+
 /* ── Marketplace Filters ── */
 .market-filters{display:flex;gap:.5rem}
 .market-filters select{padding:.35rem .6rem;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t1);font-size:.75rem;font-family:inherit;outline:none}
