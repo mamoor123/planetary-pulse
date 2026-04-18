@@ -181,7 +181,8 @@ function renderMetrics(datasets) {
       } else if (d.id === 'renewable') {
         pct = Math.min(95, (last / first) * 30);
       } else {
-        pct = Math.min(90, Math.max(20, Math.abs(d.change) * 10 + 40));
+        const changeNum = parseFloat(d.change);
+        pct = Math.min(90, Math.max(20, (isNaN(changeNum) ? 50 : Math.abs(changeNum) * 10 + 40)));
       }
     }
 
@@ -271,6 +272,8 @@ async function renderChart(datasetId) {
   svg.innerHTML = '';
 
   const values = data.data;
+  if (values.length < 2) return; // Need at least 2 points for a chart
+
   const pad = { top: 15, right: 20, bottom: 28, left: 50 };
   const W = 600, H = 220;
   const w = W - pad.left - pad.right;
