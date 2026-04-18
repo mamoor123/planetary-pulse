@@ -229,7 +229,8 @@ function animateScore(target) {
 
   let current = 0;
   const interval = setInterval(() => {
-    current += Math.ceil((target - current) / 8) || 1;
+    const step = Math.ceil((target - current) / 8);
+    current += step > 0 ? step : 1;
     if (current >= target) { current = target; clearInterval(interval); }
     num.textContent = current;
   }, 30);
@@ -299,9 +300,12 @@ async function renderChart(datasetId) {
   let maxV = Math.max(...vals) * 1.1;
   // Prevent division by zero when all values are identical
   if (minV === maxV) { minV -= 1; maxV += 1; }
+  // Prevent division by zero in year range
+  const yearRange = (maxY - minY) || 1;
+  const valRange = (maxV - minV) || 1;
 
-  const x = yr => pad.left + ((yr - minY) / (maxY - minY)) * w;
-  const y = v => pad.top + h - ((v - minV) / (maxV - minV)) * h;
+  const x = yr => pad.left + ((yr - minY) / yearRange) * w;
+  const y = v => pad.top + h - ((v - minV) / valRange) * h;
 
   // Grid lines
   const vStep = (maxV - minV) / 4;

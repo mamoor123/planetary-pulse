@@ -1,9 +1,9 @@
 /**
  * Google Gemini Integration — AI-Powered Climate Insights
- * 
+ *
  * Uses Gemini API to generate personalized climate analysis,
  * environmental insights, and action recommendations.
- * 
+ *
  * Docs: https://ai.google.dev/gemini-api/docs
  */
 
@@ -39,7 +39,7 @@ const MOCK_INSIGHTS = {
 /**
  * GET /api/gemini/status
  */
-router.get('/status', (req, res) => {
+router.get('/status', (_req, res) => {
   res.json({
     enabled: !!GEMINI_API_KEY,
     model: GEMINI_MODEL,
@@ -48,12 +48,39 @@ router.get('/status', (req, res) => {
 });
 
 /**
+ * Call Gemini API and extract JSON or text response.
+ * Returns null on failure (caller should fall back to mock).
+ */
+async function callGemini(prompt, { temperature = 0.7, maxOutputTokens = 2048 } = {}) {
+  if (!GEMINI_API_KEY) return null;
+
+  const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature, maxOutputTokens },
+    }),
+  });
+
+  const data = await response.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) return null;
+
+  // Try to extract JSON from the response
+  const jsonMatch = text.match(/\{[\s\S]*\}/);
+  if (jsonMatch) {
+    try { return JSON.parse(jsonMatch[0]); } catch (_e) { /* not valid JSON */ }
+  }
+  return { summary: text, raw: true };
+}
+
+/**
  * POST /api/gemini/analyze
  * Generate AI-powered climate analysis for specific metrics or regions
  */
 router.post('/analyze', async (req, res) => {
-  const { metrics, region, timeframe } = req.body;
-  try {
+  const { metrics, region, timeframe } = req.body || {};
 
   const prompt = `You are a climate science analyst. Analyze the following environmental context and provide actionable insights.
 
@@ -75,43 +102,15 @@ Provide your analysis in this JSON format:
 Be data-driven, specific with numbers, and honest about uncertainties. Focus on what individuals can actually do.`;
 
   try {
-    if (GEMINI_API_KEY) {
-      const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 2048,
-          },
-        }),
-      });
-
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      
-      if (text) {
-        // Try to extract JSON from the response
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          try {
-            return res.json({ source: 'gemini', analysis: JSON.parse(jsonMatch[0]) });
-          } catch (_parseErr) { /* Gemini returned non-JSON text, fall through to raw */ }
-        }
-        return res.json({ source: 'gemini', analysis: { summary: text, raw: true } });
-      }
+    const analysis = await callGemini(prompt, { temperature: 0.7, maxOutputTokens: 2048 });
+    if (analysis) {
+      return res.json({ source: analysis.raw ? 'gemini' : 'gemini', analysis });
     }
   } catch (err) {
-    console.error('Gemini API error:', err.message);
+    console.error('Gemini analyze error:', err.message);
   }
 
-  // Fallback
   res.json({ source: 'mock', analysis: MOCK_INSIGHTS.overview });
-  } catch (err) {
-    console.error('Gemini analyze handler error:', err.message);
-    res.json({ source: 'mock', analysis: MOCK_INSIGHTS.overview });
-  }
 });
 
 /**
@@ -119,8 +118,7 @@ Be data-driven, specific with numbers, and honest about uncertainties. Focus on 
  * Generate a personalized climate action plan using Gemini
  */
 router.post('/personal-plan', async (req, res) => {
-  const { footprint, location, preferences } = req.body;
-  try {
+  const { footprint, location, preferences } = req.body || {};
 
   const prompt = `Create a personalized climate action plan based on this profile:
 
@@ -150,52 +148,26 @@ Generate a JSON response with this structure:
 Prioritize highest-impact actions first. Be realistic and encouraging.`;
 
   try {
-    if (GEMINI_API_KEY) {
-      const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.8, maxOutputTokens: 3072 },
-        }),
-      });
-
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      
-      if (text) {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          try {
-            return res.json({ source: 'gemini', plan: JSON.parse(jsonMatch[0]) });
-          } catch (_parseErr) { /* Non-JSON response, fall through to mock */ }
-        }
-      }
+    const plan = await callGemini(prompt, { temperature: 0.8, maxOutputTokens: 3072 });
+    if (plan && !plan.raw) {
+      return res.json({ source: 'gemini', plan });
     }
   } catch (err) {
     console.error('Gemini plan error:', err.message);
   }
 
   // Fallback
-  res.json({ source: 'mock', plan: {
-    planTitle: 'Your Climate Action Plan',
-    currentFootprint: footprint || 8.2,
-    targetFootprint: 2.3,
-    actions: MOCK_INSIGHTS.personalActions,
-    timeline: '90 days',
-    encouragement: 'Every action counts! You don\'t need to be perfect — consistent progress is what matters. Start with the easiest changes and build momentum.',
-  }});
-  } catch (err) {
-    console.error('Gemini personal-plan handler error:', err.message);
-    res.json({ source: 'mock', plan: {
+  res.json({
+    source: 'mock',
+    plan: {
       planTitle: 'Your Climate Action Plan',
       currentFootprint: footprint || 8.2,
       targetFootprint: 2.3,
       actions: MOCK_INSIGHTS.personalActions,
       timeline: '90 days',
-      encouragement: 'Every action counts!',
-    }});
-  }
+      encouragement: 'Every action counts! You don\'t need to be perfect — consistent progress is what matters. Start with the easiest changes and build momentum.',
+    },
+  });
 });
 
 /**
@@ -203,8 +175,7 @@ Prioritize highest-impact actions first. Be realistic and encouraging.`;
  * Use Gemini to interpret raw environmental data
  */
 router.post('/interpret-data', async (req, res) => {
-  const { dataType, values, context } = req.body;
-  try {
+  const { dataType, values, context } = req.body || {};
 
   const prompt = `Interpret this environmental data for a general audience:
 
@@ -221,31 +192,18 @@ Provide a human-readable interpretation including:
 Keep it under 200 words, data-driven, and accessible to non-scientists.`;
 
   try {
-    if (GEMINI_API_KEY) {
-      const response = await fetch(`${GEMINI_URL}?key=${GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.6, maxOutputTokens: 1024 },
-        }),
-      });
-
-      const data = await response.json();
-      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (text) {
-        return res.json({ source: 'gemini', interpretation: text });
-      }
+    const result = await callGemini(prompt, { temperature: 0.6, maxOutputTokens: 1024 });
+    if (result) {
+      return res.json({ source: 'gemini', interpretation: result.summary || result });
     }
   } catch (err) {
     console.error('Gemini interpret error:', err.message);
   }
 
-  res.json({ source: 'mock', interpretation: 'Environmental data shows continued warming trends. The values indicate ongoing changes in global systems that require both systemic and individual action to address.' });
-  } catch (err) {
-    console.error('Gemini interpret-data handler error:', err.message);
-    res.json({ source: 'mock', interpretation: 'Unable to interpret data at this time.' });
-  }
+  res.json({
+    source: 'mock',
+    interpretation: 'Environmental data shows continued warming trends. The values indicate ongoing changes in global systems that require both systemic and individual action to address.',
+  });
 });
 
 module.exports = router;

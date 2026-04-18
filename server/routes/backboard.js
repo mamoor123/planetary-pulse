@@ -55,7 +55,7 @@ const MOCK_CLIMATE_FACTS = [
  * GET /api/backboard/status
  * Check Backboard integration status
  */
-router.get('/status', async (req, res) => {
+router.get('/status', (req, res) => {
   const enabled = !!BACKBOARD_KEY;
   res.json({
     enabled,

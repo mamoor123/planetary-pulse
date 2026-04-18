@@ -1,9 +1,5 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/mamoor123/Planetary-Pulse/main/public/favicon.svg" alt="Planetary Pulse" width="120"/>
-
-<br/>
-
 # 🌍 Planetary Pulse
 
 ### ✨ AI-Powered Earth Health Dashboard

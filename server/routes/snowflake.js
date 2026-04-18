@@ -209,14 +209,8 @@ router.get('/query/:dataset', async (req, res) => {
     }
   }
 
-  // Fallback to mock data
+  // Fallback to mock data (dataset is already validated against whitelist above)
   const ds = MOCK_DATASETS[dataset];
-  if (!ds) {
-    return res.status(404).json({
-      error: `Dataset '${dataset}' not found`,
-      available: Object.keys(MOCK_DATASETS),
-    });
-  }
 
   let data = ds.data;
   if (fromYear) data = data.filter(d => d.year >= parseInt(fromYear));

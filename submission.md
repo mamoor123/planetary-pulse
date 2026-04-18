@@ -123,7 +123,7 @@ Carbon credits are tracked as on-chain tokens with verifiable retirement:
 const burnTx = new Transaction().add(
   createBurnInstruction(
     creditTokenAccount, CREDIT_MINT,
-    keypair.publicId, tonnes * 1e9
+    keypair.publicKey, tonnes * 1e9
   )
 );
 const signature = await connection.sendTransaction(burnTx, [keypair]);

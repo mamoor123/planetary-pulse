@@ -147,8 +147,10 @@ router.post('/retire', async (req, res) => {
 
   try {
     if (process.env.SOLANA_PRIVATE_KEY) {
-      // In production: use @solana/web3.js to create and send a transaction
-      // that transfers the carbon credit tokens to a burn address
+      // TODO: Implement real on-chain burn transaction using @solana/web3.js
+      // The commented code below shows the intended implementation.
+      // Uncomment and configure when deploying to production.
+      console.warn('SOLANA_PRIVATE_KEY is set but on-chain burn is not yet implemented — returning mock response');
       /*
       const { Connection, Keypair, Transaction, PublicKey } = require('@solana/web3.js');
       

@@ -174,7 +174,10 @@ router.get('/factors', (req, res) => {
 // ─── Recommendation engine ──────────────────────────────────────────────────
 function generateRecommendations(params, total) {
   const recs = [];
-  const { commute_mode, diet, energy_source, flights_per_year } = params;
+  const commute_mode = params.commute_mode || 'car';
+  const diet = params.diet || 'medium_meat';
+  const energy_source = params.energy_source || 'mixed_grid';
+  const flights = parseFloat(params.flights_per_year) || 0;
 
   if (commute_mode === 'car' || commute_mode === 'car_suv') {
     recs.push({
@@ -185,11 +188,11 @@ function generateRecommendations(params, total) {
     });
   }
 
-  if (flights_per_year > 4) {
+  if (flights > 4) {
     recs.push({
       category: 'transport',
       action: 'Reduce flights or choose direct routes (takeoff/landing = most emissions)',
-      potentialSaving: parseFloat(((flights_per_year - 4) * 0.5).toFixed(2)),
+      potentialSaving: parseFloat(((flights - 4) * 0.5).toFixed(2)),
       priority: 'high',
     });
   }
