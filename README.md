@@ -104,7 +104,7 @@ A full-stack Node.js application combining **six prize-category technologies** i
 │                                              │
 │  🧠 AI Insights               ✨ Gemini      │
 │  🔴 Arctic ice 2nd lowest on record         │
-│  ⚡ Renewables dropped 89% since 2010       │
+│  ⚡ Renewable costs dropped 89% since 2010  │
 │  🌱 37 countries peaked emissions           │
 │  💡 1 tree = 22kg CO₂/yr for 2 people      │
 │                                              │

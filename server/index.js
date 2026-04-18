@@ -77,13 +77,15 @@ try {
   console.log('⚠️  Auth0: Module not available, using mock auth');
 }
 
-// Auth fallback routes (always available when Auth0 is not configured)
-app.get('/api/auth/status', (req, res) => {
-  res.json({ authenticated: false, user: null });
-});
-app.get('/api/auth/agent-token', (req, res) => {
-  res.status(501).json({ error: 'Auth0 not configured — agent tokens unavailable' });
-});
+// Auth fallback routes (only when Auth0 is NOT configured — avoids duplicate route registration)
+if (!(process.env.AUTH0_CLIENT_ID && process.env.AUTH0_DOMAIN)) {
+  app.get('/api/auth/status', (req, res) => {
+    res.json({ authenticated: false, user: null });
+  });
+  app.get('/api/auth/agent-token', (req, res) => {
+    res.status(501).json({ error: 'Auth0 not configured — agent tokens unavailable' });
+  });
+}
 
 // ─── Route Registration ─────────────────────────────────────────────────────
 const backboardRoutes = require('./routes/backboard');

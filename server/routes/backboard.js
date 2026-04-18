@@ -42,7 +42,7 @@ async function backboardFetch(endpoint, options = {}) {
 // ─── Mock fallback when no API key ──────────────────────────────────────────
 const MOCK_CLIMATE_FACTS = [
   { id: '1', content: 'Global CO₂ has risen from 280 ppm (pre-industrial) to 421 ppm (2024).', category: 'atmosphere', importance: 0.95 },
-  { id: '2', content: 'Renewable energy costs have dropped 89% since 2010.', category: 'energy', importance: 0.90 },
+  { id: '2', content: 'Renewable energy costs have dropped 89% since 2010, making solar the cheapest electricity source in most regions.', category: 'energy', importance: 0.90 },
   { id: '3', content: 'The ocean absorbs about 30% of human-produced CO₂.', category: 'ocean', importance: 0.85 },
   { id: '4', content: 'Plant-rich diets reduce food emissions by up to 50%.', category: 'lifestyle', importance: 0.80 },
   { id: '5', content: 'Deforestation accounts for ~10% of global emissions.', category: 'forests', importance: 0.88 },
