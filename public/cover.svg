@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1a"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0a0f1a"/>
+    </linearGradient>
+    <linearGradient id="green" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#22c55e" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Subtle grid -->
+  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+    <line x1="0" y1="157" x2="1200" y2="157"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="472" x2="1200" y2="472"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+  </g>
+  
+  <!-- Globe glow -->
+  <circle cx="200" cy="315" r="180" fill="url(#glow)"/>
+  
+  <!-- Globe -->
+  <circle cx="200" cy="315" r="120" fill="#166534" opacity="0.8"/>
+  <circle cx="200" cy="315" r="120" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.3"/>
+  <!-- Continents -->
+  <ellipse cx="180" cy="280" rx="35" ry="22" fill="#22c55e" opacity="0.6"/>
+  <ellipse cx="230" cy="260" rx="20" ry="30" fill="#22c55e" opacity="0.5"/>
+  <ellipse cx="190" cy="340" rx="25" ry="15" fill="#22c55e" opacity="0.5"/>
+  <!-- Atmosphere ring -->
+  <circle cx="200" cy="315" r="125" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.2" stroke-dasharray="4,8"/>
+  
+  <!-- Pulse rings -->
+  <circle cx="200" cy="315" r="140" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.15"/>
+  <circle cx="200" cy="315" r="160" fill="none" stroke="#22c55e" stroke-width="0.5" opacity="0.08"/>
+  
+  <!-- Title -->
+  <text x="400" y="200" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="900" fill="#f1f5f9">
+    <tspan fill="url(#green)">Planetary</tspan> Pulse
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="400" y="245" font-family="Inter, system-ui, sans-serif" font-size="20" fill="#94a3b8" font-weight="400">
+    AI-Powered Earth Health Dashboard
+  </text>
+  
+  <!-- Description -->
+  <text x="400" y="290" font-family="Inter, system-ui, sans-serif" font-size="15" fill="#64748b">
+    Real-time climate data · AI insights · Carbon tracking · Blockchain credits
+  </text>
+  
+  <!-- Tech badges -->
+  <g transform="translate(400, 330)">
+    <rect x="0" y="0" width="90" height="28" rx="6" fill="rgba(168,85,247,0.15)" stroke="rgba(168,85,247,0.3)" stroke-width="1"/>
+    <text x="45" y="18" font-family="Inter, sans-serif" font-size="11" fill="#a855f7" text-anchor="middle" font-weight="600">Backboard</text>
+    
+    <rect x="100" y="0" width="60" height="28" rx="6" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.3)" stroke-width="1"/>
+    <text x="130" y="18" font-family="Inter, sans-serif" font-size="11" fill="#f97316" text-anchor="middle" font-weight="600">Auth0</text>
+    
+    <rect x="170" y="0" width="75" height="28" rx="6" fill="rgba(14,165,233,0.15)" stroke="rgba(14,165,233,0.3)" stroke-width="1"/>
+    <text x="207" y="18" font-family="Inter, sans-serif" font-size="11" fill="#0ea5e9" text-anchor="middle" font-weight="600">Gemini</text>
+    
+    <rect x="255" y="0" width="90" height="28" rx="6" fill="rgba(6,182,212,0.15)" stroke="rgba(6,182,212,0.3)" stroke-width="1"/>
+    <text x="300" y="18" font-family="Inter, sans-serif" font-size="11" fill="#06b6d4" text-anchor="middle" font-weight="600">Snowflake</text>
+    
+    <rect x="355" y="0" width="55" height="28" rx="6" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
+    <text x="382" y="18" font-family="Inter, sans-serif" font-size="11" fill="#22c55e" text-anchor="middle" font-weight="600">Solana</text>
+    
+    <rect x="420" y="0" width="110" height="28" rx="6" fill="rgba(36,41,47,0.5)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <text x="475" y="18" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle" font-weight="600">GitHub Copilot</text>
+  </g>
+  
+  <!-- Stats row -->
+  <g transform="translate(400, 400)">
+    <g>
+      <text x="0" y="0" font-family="Inter, sans-serif" font-size="28" font-weight="800" fill="#22c55e">7</text>
+      <text x="0" y="18" font-family="Inter, sans-serif" font-size="10" fill="#64748b" text-transform="uppercase">Datasets</text>
+    </g>
+    <g transform="translate(100, 0)">
+      <text x="0" y="0" font-family="Inter, sans-serif" font-size="28" font-weight="800" fill="#0ea5e9">20</text>
+      <text x="0" y="18" font-family="Inter, sans-serif" font-size="10" fill="#64748b">API Endpoints</text>
+    </g>
+    <g transform="translate(200, 0)">
+      <text x="0" y="0" font-family="Inter, sans-serif" font-size="28" font-weight="800" fill="#a855f7">4</text>
+      <text x="0" y="18" font-family="Inter, sans-serif" font-size="10" fill="#64748b">Interactive Tabs</text>
+    </g>
+    <g transform="translate(320, 0)">
+      <text x="0" y="0" font-family="Inter, sans-serif" font-size="28" font-weight="800" fill="#f97316">6</text>
+      <text x="0" y="18" font-family="Inter, sans-serif" font-size="10" fill="#64748b">Prize Techs</text>
+    </g>
+  </g>
+  
+  <!-- Bottom bar -->
+  <rect x="0" y="590" width="1200" height="40" fill="rgba(34,197,94,0.05)"/>
+  <text x="600" y="615" font-family="Inter, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">
+    🌍 Built for the "Build for the Planet" Challenge — Earth Day 2025
+  </text>
+  
+  <!-- Corner accent -->
+  <rect x="0" y="0" width="4" height="630" fill="url(#green)" opacity="0.5"/>
+</svg>

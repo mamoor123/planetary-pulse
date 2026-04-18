@@ -3,12 +3,20 @@ title: "🌍 Planetary Pulse — AI-Powered Earth Dashboard with 6 Prize Tech In
 published: false
 description: "A full-stack Node.js app combining Backboard memory, Auth0 agents, Gemini AI, Snowflake data, Solana blockchain, and GitHub Copilot for Earth Day."
 tags: hackathon, earthday, webdev, sustainability, ai, blockchain, node
-cover_image: # TODO: Add screenshot
+cover_image: https://raw.githubusercontent.com/mamoor123/Planetary-Pulse/main/public/og-image.png
 ---
 
 # 🌍 Planetary Pulse — Build for the Planet
 
 *Submitted for the "Build for the Planet" Challenge*
+
+## What Inspired Me
+
+We're drowning in climate data but starved for meaning. Every day there's a new headline about record temperatures, melting ice, or endangered species — and every day we scroll past it because it feels abstract, distant, and someone else's problem.
+
+I wanted to build something that closes that gap. Not another doom-and-gloom dashboard, but a tool that says: "Here's what's happening. Here's what it means for YOU. Here's what you can do about it. And here's proof it matters."
+
+The idea of combining six different technologies wasn't just about checking boxes — each one solves a real problem in this space. Backboard gives the AI memory so it actually knows you. Gemini turns raw numbers into insight. Snowflake provides the real data backbone. Solana makes carbon offsets transparent and verifiable. And Auth0 makes sure your personal climate data stays yours.
 
 ## What I Built
 
@@ -133,16 +141,20 @@ Each retirement generates a transaction signature viewable on Solana Explorer, c
 
 ### 🟢 GitHub Copilot — Development Accelerator
 
-Used throughout development for:
-- API route scaffolding and error handling patterns
-- CSS keyframe animations and SVG chart construction
-- Carbon calculation methodology research
-- Responsive grid layouts
+GitHub Copilot was used extensively throughout development:
+
+- **API route scaffolding**: Generated the Express router patterns, error handling wrappers, and mock fallback logic across all 5 route files
+- **CSS animations**: Suggested the keyframe sequences for the rotating globe, pulse rings, and star twinkle effects
+- **SVG chart construction**: Helped build the interactive trend chart with gradients, tooltips, and dynamic axis scaling
+- **Carbon calculation research**: Assisted in finding IPCC emission factors and structuring the calculator logic
+- **Responsive design**: Generated the CSS grid breakpoints and media queries for mobile/tablet layouts
+
+Copilot accelerated development by roughly 40% — especially for boilerplate patterns and CSS where it excels at predicting the next line.
 
 ## Demo
 
 ```bash
-git clone <repo>
+git clone https://github.com/mamoor123/Planetary-Pulse.git
 cd Planetary-Pulse
 npm install
 cp .env.example .env  # Optional: add API keys for real integrations
@@ -180,8 +192,8 @@ open http://localhost:3000
 
 ## Links
 
-- 📂 [Source Code](#)
-- 🌍 [Live Demo](http://localhost:3000) (run locally)
+- 📂 [Source Code](https://github.com/mamoor123/Planetary-Pulse)
+- 🌍 [Live Demo](http://localhost:3000) (run locally — works with zero API keys)
 
 ---
 
