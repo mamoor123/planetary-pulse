@@ -71,10 +71,15 @@ router.post('/calculate', (req, res) => {
     existing_offsets = 0,
   } = req.body;
 
+  // Clamp inputs to valid ranges
+  const safeCommuteKm = Math.max(0, commute_km || 0);
+  const safeCommuteDays = Math.max(0, Math.min(7, commute_days || 0));
+  const safeFlights = Math.max(0, flights_per_year || 0);
+
   // Transport
   const commuteFactor = FACTORS.transport[`${commute_mode}_km`] || FACTORS.transport.car_km;
-  const transportCommute = commute_km * commuteFactor * commute_days * 52 / 1000; // tonnes
-  const transportFlights = flights_per_year * FACTORS.transport.flight_per_trip;
+  const transportCommute = safeCommuteKm * commuteFactor * safeCommuteDays * 52 / 1000; // tonnes
+  const transportFlights = safeFlights * FACTORS.transport.flight_per_trip;
   const transportTotal = transportCommute + transportFlights;
 
   // Diet

@@ -52,6 +52,9 @@ function escapeHtml(text) {
   div.textContent = text;
   return div.innerHTML;
 }
+
+// ════════════════════════════════════════════════════════════════
+// Stars
 // ════════════════════════════════════════════════════════════════
 function createStars() {
   const el = document.getElementById('stars');

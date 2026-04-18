@@ -141,8 +141,8 @@ router.get('/portfolio', (req, res) => {
 router.post('/retire', async (req, res) => {
   const { credit_id, tonnes, reason } = req.body;
 
-  if (!credit_id || !tonnes) {
-    return res.status(400).json({ error: 'credit_id and tonnes are required' });
+  if (!credit_id || !tonnes || parseFloat(tonnes) <= 0) {
+    return res.status(400).json({ error: 'credit_id and positive tonnes are required' });
   }
 
   try {
