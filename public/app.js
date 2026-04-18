@@ -254,7 +254,7 @@ function renderEcoStats() {
   document.getElementById('ecoStats').innerHTML = [
     { icon: '🌲', val: '3.04T', label: 'Trees on Earth', color: 'var(--green)' },
     { icon: '🌊', val: '71%', label: 'Ocean Coverage', color: 'var(--blue)' },
-    { icon: '🏔️', val: '8.8K', label: 'Species Daily', color: 'var(--purple)' },
+    { icon: '🏔️', val: '8.8K', label: 'Known Species', color: 'var(--purple)' },
     { icon: '☀️', val: '173K', label: 'TW Solar/yr', color: 'var(--orange)' },
   ].map(s => `
     <div class="eco-stat">
@@ -394,20 +394,20 @@ async function loadInsights() {
     { tag: '📊 Data Point', cls: 'ins-info', text: 'Global methane concentrations reached 1923 ppb — the highest level in at least 800,000 years.' },
   ];
 
-  // Try to get Gemini-enhanced insights
+  // Try to get Gemini-enhanced insights and insert at top
   const geminiInsight = await api('/gemini/analyze', {
     method: 'POST',
     body: JSON.stringify({ metrics: ['temperature', 'co2', 'biodiversity'], region: 'global' }),
   });
 
   if (geminiInsight?.source === 'gemini' && geminiInsight.analysis?.keyFindings) {
-    geminiInsight.analysis.keyFindings.forEach((f, i) => {
-      if (i < 2) insights.unshift({
-        tag: '✨ AI Analysis',
-        cls: 'ins-info',
-        text: f,
-      });
-    });
+    const aiFindings = geminiInsight.analysis.keyFindings.slice(0, 2).map(f => ({
+      tag: '✨ AI Analysis',
+      cls: 'ins-info',
+      text: f,
+    }));
+    // Insert AI findings at the top, keep total at 6
+    insights.splice(0, 0, ...aiFindings);
   }
 
   el.innerHTML = insights.slice(0, 6).map(ins => `
