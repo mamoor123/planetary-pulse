@@ -118,8 +118,17 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`\n🌍 Planetary Pulse running at http://localhost:${PORT}`);
   console.log(`   Dashboard: http://localhost:${PORT}`);
   console.log(`   API Health: http://localhost:${PORT}/api/health\n`);
+});
+
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`❌ Port ${PORT} is already in use. Set PORT env var or kill the existing process.`);
+  } else {
+    console.error('❌ Server error:', err.message);
+  }
+  process.exit(1);
 });

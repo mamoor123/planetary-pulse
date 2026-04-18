@@ -244,6 +244,15 @@ input[type=range]{accent-color:var(--green);height:4px}
 footer{position:relative;z-index:10;text-align:center;padding:2rem;color:var(--t3);font-size:.75rem}
 .footer-tech{margin-top:.4rem;font-size:.65rem;opacity:.6}
 
+/* ── Calculator Layout ── */
+.calc-form-card{height:fit-content}
+.calc-result-card{height:fit-content}
+
+/* ── Marketplace Filters ── */
+.market-filters{display:flex;gap:.5rem}
+.market-filters select{padding:.35rem .6rem;border-radius:6px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--t1);font-size:.75rem;font-family:inherit;outline:none}
+.market-filters select option{background:#1e293b}
+
 /* ── Responsive ── */
 @media(max-width:1024px){
   .dashboard-grid{grid-template-columns:1fr 1fr}

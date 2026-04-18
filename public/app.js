@@ -45,7 +45,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ════════════════════════════════════════════════════════════════
-// Stars
+// Helpers
+// ════════════════════════════════════════════════════════════════
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
 // ════════════════════════════════════════════════════════════════
 function createStars() {
   const el = document.getElementById('stars');
@@ -108,9 +114,13 @@ async function checkServices() {
 
   // Auth status
   const auth = await api('/auth/status');
+  const loginBtn = document.getElementById('loginBtn');
   if (auth?.authenticated) {
-    document.getElementById('loginBtn').textContent = auth.user?.name || 'Account';
-    document.getElementById('loginBtn').href = '/logout';
+    loginBtn.textContent = auth.user?.name || 'Account';
+    loginBtn.href = '/logout';
+  } else if (!state.services.auth0) {
+    // Hide login button when Auth0 is not configured
+    loginBtn.style.display = 'none';
   }
 }
 
@@ -412,6 +422,7 @@ function initActions() {
     { text: 'Support a local conservation organization', impact: 'Impact' },
     { text: 'Share your climate journey on social media', impact: 'Inspire' },
   ];
+  const totalActions = actions.length;
 
   const el = document.getElementById('actionsList');
   el.innerHTML = actions.map((a, i) => `
@@ -422,20 +433,23 @@ function initActions() {
     </div>
   `).join('');
 
+  // Update initial counter
+  document.getElementById('actionCounter').textContent = `0 / ${totalActions}`;
+
   el.querySelectorAll('.action-item').forEach(item => {
     item.addEventListener('click', () => {
       item.classList.toggle('done');
       const idx = item.dataset.idx;
       if (state.completedActions.has(idx)) state.completedActions.delete(idx);
       else state.completedActions.add(idx);
-      updateActionCounter();
+      updateActionCounter(totalActions);
     });
   });
 }
 
-function updateActionCounter() {
+function updateActionCounter(total) {
   const n = state.completedActions.size;
-  document.getElementById('actionCounter').textContent = `${n} / 8`;
+  document.getElementById('actionCounter').textContent = `${n} / ${total}`;
   // Boost score
   document.getElementById('healthScore').textContent = Math.min(100, 67 + Math.round(n * 1.2));
 }
@@ -492,9 +506,10 @@ function appendChat(role, text) {
   const messages = document.getElementById('chatMessages');
   const div = document.createElement('div');
   div.className = `chat-msg ${role}`;
+  const safeText = escapeHtml(text);
   div.innerHTML = `
     <div class="msg-avatar">${role === 'user' ? '👤' : '🌱'}</div>
-    <div class="msg-bubble">${text}</div>
+    <div class="msg-bubble">${safeText}</div>
   `;
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
