@@ -470,7 +470,6 @@ function updateActionCounter(total) {
 function initChat() {
   const form = document.getElementById('chatForm');
   const input = document.getElementById('chatInput');
-  const messages = document.getElementById('chatMessages');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

@@ -3,11 +3,12 @@ import js from "@eslint/js";
 export default [
   js.configs.recommended,
   {
+    // Server files (Node.js)
+    files: ["server/**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "commonjs",
       globals: {
-        // Node.js globals
         require: "readonly",
         module: "readonly",
         exports: "readonly",
@@ -38,6 +39,45 @@ export default [
       "valid-typeof": "error",
       "no-loss-of-precision": "error",
       "no-async-promise-executor": "warn",
+    },
+  },
+  {
+    // Browser files
+    files: ["public/**/*.js"],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: "script",
+      globals: {
+        // Browser globals
+        document: "readonly",
+        window: "readonly",
+        alert: "readonly",
+        prompt: "readonly",
+        console: "readonly",
+        fetch: "readonly",
+        setTimeout: "readonly",
+        setInterval: "readonly",
+        clearTimeout: "readonly",
+        clearInterval: "readonly",
+        Math: "readonly",
+        JSON: "readonly",
+        Promise: "readonly",
+        Number: "readonly",
+        Set: "readonly",
+        Event: "readonly",
+      },
+    },
+    rules: {
+      "no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+      "no-undef": "error",
+      "no-redeclare": "error",
+      "no-dupe-keys": "error",
+      "no-unreachable": "error",
+      "eqeqeq": ["warn", "smart"],
+      "no-eval": "error",
+      "no-implied-eval": "error",
+      "use-isnan": "error",
+      "valid-typeof": "error",
     },
   },
 ];
