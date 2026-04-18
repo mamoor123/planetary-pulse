@@ -153,6 +153,8 @@ Copilot accelerated development by roughly 40% — especially for boilerplate pa
 
 ## Demo
 
+🌍 **Live Demo**: [https://planetary-pulse-fgdk.onrender.com](https://planetary-pulse-fgdk.onrender.com)
+
 ```bash
 git clone https://github.com/mamoor123/Planetary-Pulse.git
 cd Planetary-Pulse
@@ -193,7 +195,7 @@ open http://localhost:3000
 ## Links
 
 - 📂 [Source Code](https://github.com/mamoor123/Planetary-Pulse)
-- 🌍 [Live Demo](http://localhost:3000) (run locally — works with zero API keys)
+- 🌍 [Live Demo](https://planetary-pulse-fgdk.onrender.com) — works with zero API keys
 
 ---
 
