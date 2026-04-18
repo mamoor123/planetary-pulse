@@ -198,16 +198,17 @@ router.post('/retire', async (req, res) => {
  * Calculate environmental impact from carbon credits
  */
 router.get('/impact', (req, res) => {
-  const totalTonnes = parseFloat(req.query.tonnes || MOCK_USER_PORTFOLIO.totalCredits);
+  const totalTonnes = parseFloat(req.query.tonnes);
+  const safeTonnes = isNaN(totalTonnes) ? MOCK_USER_PORTFOLIO.totalCredits : totalTonnes;
   
   res.json({
-    totalTonnes,
+    totalTonnes: safeTonnes,
     equivalents: {
-      trees: Math.round(totalTonnes * 45), // ~45 trees to absorb 1 tonne/year
-      carMiles: Math.round(totalTonnes * 2500), // ~2500 miles per tonne
-      flightHours: (totalTonnes / 0.25).toFixed(1), // ~0.25 tonnes per flight hour
-      homeDays: Math.round(totalTonnes * 113), // ~113 days of avg US home energy per tonne
-      smartphoneCharges: Math.round(totalTonnes * 121643), // ~121,643 charges per tonne
+      trees: Math.round(safeTonnes * 45),
+      carMiles: Math.round(safeTonnes * 2500),
+      flightHours: (safeTonnes / 0.25).toFixed(1),
+      homeDays: Math.round(safeTonnes * 113),
+      smartphoneCharges: Math.round(safeTonnes * 121643),
     },
     verified: true,
     blockchain: 'Solana (devnet)',

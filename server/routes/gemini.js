@@ -204,6 +204,7 @@ Prioritize highest-impact actions first. Be realistic and encouraging.`;
  */
 router.post('/interpret-data', async (req, res) => {
   const { dataType, values, context } = req.body;
+  try {
 
   const prompt = `Interpret this environmental data for a general audience:
 
@@ -241,6 +242,10 @@ Keep it under 200 words, data-driven, and accessible to non-scientists.`;
   }
 
   res.json({ source: 'mock', interpretation: 'Environmental data shows continued warming trends. The values indicate ongoing changes in global systems that require both systemic and individual action to address.' });
+  } catch (err) {
+    console.error('Gemini interpret-data handler error:', err.message);
+    res.json({ source: 'mock', interpretation: 'Unable to interpret data at this time.' });
+  }
 });
 
 module.exports = router;

@@ -115,6 +115,10 @@ app.get('/api/health', (req, res) => {
 
 // ─── SPA Fallback ───────────────────────────────────────────────────────────
 app.get('*', (req, res) => {
+  // Return JSON 404 for API routes, HTML for everything else
+  if (req.path.startsWith('/api/')) {
+    return res.status(404).json({ error: `Not found: ${req.path}` });
+  }
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 

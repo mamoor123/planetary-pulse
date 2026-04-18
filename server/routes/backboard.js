@@ -181,6 +181,10 @@ router.post('/chat', async (req, res) => {
 router.post('/memory', async (req, res) => {
   const { content, category, importance } = req.body;
 
+  if (!content || typeof content !== 'string') {
+    return res.status(400).json({ error: 'content (string) is required' });
+  }
+
   try {
     if (BACKBOARD_KEY) {
       const result = await backboardFetch('/memories', {

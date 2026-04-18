@@ -292,7 +292,10 @@ async function renderChart(datasetId) {
   const years = values.map(d => d.year);
   const vals = values.map(d => d.value);
   const minY = Math.min(...years), maxY = Math.max(...years);
-  const minV = Math.min(...vals) * 0.9, maxV = Math.max(...vals) * 1.1;
+  let minV = Math.min(...vals) * 0.9;
+  let maxV = Math.max(...vals) * 1.1;
+  // Prevent division by zero when all values are identical
+  if (minV === maxV) { minV -= 1; maxV += 1; }
 
   const x = yr => pad.left + ((yr - minY) / (maxY - minY)) * w;
   const y = v => pad.top + h - ((v - minV) / (maxV - minV)) * h;
