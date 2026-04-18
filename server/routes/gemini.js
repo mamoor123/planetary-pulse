@@ -53,6 +53,7 @@ router.get('/status', (req, res) => {
  */
 router.post('/analyze', async (req, res) => {
   const { metrics, region, timeframe } = req.body;
+  try {
 
   const prompt = `You are a climate science analyst. Analyze the following environmental context and provide actionable insights.
 
@@ -96,7 +97,7 @@ Be data-driven, specific with numbers, and honest about uncertainties. Focus on 
         if (jsonMatch) {
           try {
             return res.json({ source: 'gemini', analysis: JSON.parse(jsonMatch[0]) });
-          } catch {}
+          } catch (_parseErr) { /* Gemini returned non-JSON text, fall through to raw */ }
         }
         return res.json({ source: 'gemini', analysis: { summary: text, raw: true } });
       }
@@ -107,6 +108,10 @@ Be data-driven, specific with numbers, and honest about uncertainties. Focus on 
 
   // Fallback
   res.json({ source: 'mock', analysis: MOCK_INSIGHTS.overview });
+  } catch (err) {
+    console.error('Gemini analyze handler error:', err.message);
+    res.json({ source: 'mock', analysis: MOCK_INSIGHTS.overview });
+  }
 });
 
 /**
@@ -115,6 +120,7 @@ Be data-driven, specific with numbers, and honest about uncertainties. Focus on 
  */
 router.post('/personal-plan', async (req, res) => {
   const { footprint, location, preferences } = req.body;
+  try {
 
   const prompt = `Create a personalized climate action plan based on this profile:
 
@@ -162,7 +168,7 @@ Prioritize highest-impact actions first. Be realistic and encouraging.`;
         if (jsonMatch) {
           try {
             return res.json({ source: 'gemini', plan: JSON.parse(jsonMatch[0]) });
-          } catch {}
+          } catch (_parseErr) { /* Non-JSON response, fall through to mock */ }
         }
       }
     }
@@ -179,6 +185,17 @@ Prioritize highest-impact actions first. Be realistic and encouraging.`;
     timeline: '90 days',
     encouragement: 'Every action counts! You don\'t need to be perfect — consistent progress is what matters. Start with the easiest changes and build momentum.',
   }});
+  } catch (err) {
+    console.error('Gemini personal-plan handler error:', err.message);
+    res.json({ source: 'mock', plan: {
+      planTitle: 'Your Climate Action Plan',
+      currentFootprint: footprint || 8.2,
+      targetFootprint: 2.3,
+      actions: MOCK_INSIGHTS.personalActions,
+      timeline: '90 days',
+      encouragement: 'Every action counts!',
+    }});
+  }
 });
 
 /**

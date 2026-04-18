@@ -73,7 +73,7 @@ try {
   } else {
     console.log('⚠️  Auth0: Disabled (set AUTH0_CLIENT_ID and AUTH0_DOMAIN)');
   }
-} catch (e) {
+} catch (_e) {
   console.log('⚠️  Auth0: Module not available, using mock auth');
 }
 

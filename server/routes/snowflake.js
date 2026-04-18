@@ -151,15 +151,26 @@ router.get('/query/:dataset', async (req, res) => {
   const { dataset } = req.params;
   const { fromYear, toYear, limit } = req.query;
 
+  // Whitelist validation to prevent SQL injection
+  const VALID_DATASETS = Object.keys(MOCK_DATASETS);
+  if (!VALID_DATASETS.includes(dataset)) {
+    return res.status(404).json({
+      error: `Dataset '${dataset}' not found`,
+      available: VALID_DATASETS,
+    });
+  }
+
   if (snowflakeEnabled) {
+    let connection;
     try {
       const snowflake = require('snowflake-sdk');
-      const connection = snowflake.createConnection(SNOWFLAKE_CONFIG);
+      connection = snowflake.createConnection(SNOWFLAKE_CONFIG);
       
       await new Promise((resolve, reject) => {
         connection.connect((err) => err ? reject(err) : resolve());
       });
 
+      // dataset is validated against whitelist above — safe to interpolate
       let sql = `SELECT year, value, source FROM ${dataset}_data WHERE 1=1`;
       const binds = [];
       
@@ -184,8 +195,6 @@ router.get('/query/:dataset', async (req, res) => {
           complete: (err, stmt, rows) => err ? reject(err) : resolve(rows),
         });
       });
-
-      connection.destroy();
       
       return res.json({
         source: 'snowflake',
@@ -194,6 +203,9 @@ router.get('/query/:dataset', async (req, res) => {
       });
     } catch (err) {
       console.error('Snowflake query error:', err.message);
+      // Fall through to mock data
+    } finally {
+      if (connection) { try { connection.destroy(); } catch (_e) { /* cleanup */ } }
     }
   }
 

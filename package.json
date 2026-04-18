@@ -7,15 +7,24 @@
     "start": "node server/index.js",
     "dev": "node --watch server/index.js"
   },
-  "keywords": ["earth-day", "climate", "sustainability", "ai", "blockchain"],
+  "keywords": [
+    "earth-day",
+    "climate",
+    "sustainability",
+    "ai",
+    "blockchain"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
+    "@solana/web3.js": "^1.87.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "express-openid-connect": "^2.17.0",
-    "@solana/web3.js": "^1.87.0",
     "snowflake-sdk": "^1.12.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1"
   }
 }
