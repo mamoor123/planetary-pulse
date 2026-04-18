@@ -17,7 +17,7 @@ Real-time climate data · AI-powered insights · Personal carbon tracking · Blo
 
 <br/>
 
-[![Earth Day 2025](https://img.shields.io/badge/🌱-Earth_Day_2025-22c55e?style=for-the-badge)]()
+[![Earth Day 2026](https://img.shields.io/badge/🌱-Earth_Day_2026-22c55e?style=for-the-badge)]()
 [![Build for the Planet](https://img.shields.io/badge/🏆-Build_for_the_Planet_Challenge-a855f7?style=for-the-badge)]()
 [![6 Prize Categories](https://img.shields.io/badge/🎯-6_Prize_Categories-0ea5e9?style=for-the-badge)]()
 
@@ -735,7 +735,7 @@ Found a bug? Open an issue. Have an idea? Submit a PR. All contributions welcome
 
 <br/><br/>
 
-[![🌱 Earth Day 2025](https://img.shields.io/badge/🌱-Earth_Day_2025-22c55e?style=for-the-badge)]()
+[![🌱 Earth Day 2026](https://img.shields.io/badge/🌱-Earth_Day_2026-22c55e?style=for-the-badge)]()
 [![🏆 Build for the Planet](https://img.shields.io/badge/🏆-Build_for_the_Planet-a855f7?style=for-the-badge)]()
 [![💚 Made with Love](https://img.shields.io/badge/💚-Made_with_Love-ef4444?style=for-the-badge)]()
 
