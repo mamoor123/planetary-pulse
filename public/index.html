@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planetary Pulse — Earth Health Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="stars" id="stars"></div>
+
+    <!-- ═══ Header ═══ -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon"><span class="globe-spin">🌍</span></div>
+                <div>
+                    <span class="logo-text">Planetary Pulse</span>
+                    <span class="subtitle">Real-time Earth Health · AI Insights · Carbon Action</span>
+                </div>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="dashboard">📊 Dashboard</button>
+                <button class="nav-tab" data-tab="assistant">🤖 AI Assistant</button>
+                <button class="nav-tab" data-tab="calculator">🧮 Calculator</button>
+                <button class="nav-tab" data-tab="credits">🪙 Carbon Credits</button>
+            </nav>
+            <div class="header-right">
+                <div class="service-badges" id="serviceBadges"></div>
+                <a href="/login" class="btn-login" id="loginBtn">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══ TAB: Dashboard ═══ -->
+    <section class="tab-content active" id="tab-dashboard">
+        <div class="dashboard-grid">
+            <!-- Health Score -->
+            <div class="card card-score animate-in">
+                <div class="card-header">
+                    <span class="card-title">🌎 Global Health Index</span>
+                    <span class="card-badge badge-live">● Live</span>
+                </div>
+                <div class="score-section">
+                    <div class="score-ring-wrap">
+                        <svg class="score-ring" viewBox="0 0 160 160">
+                            <defs>
+                                <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#22c55e"/>
+                                    <stop offset="50%" stop-color="#0ea5e9"/>
+                                    <stop offset="100%" stop-color="#a855f7"/>
+                                </linearGradient>
+                            </defs>
+                            <circle class="ring-bg" cx="80" cy="80" r="70"/>
+                            <circle class="ring-fill" cx="80" cy="80" r="70" id="scoreRing"/>
+                        </svg>
+                        <div class="score-center">
+                            <span class="score-num" id="healthScore">0</span>
+                            <span class="score-label">of 100</span>
+                        </div>
+                    </div>
+                    <div class="score-descriptors" id="scoreDescriptors"></div>
+                </div>
+            </div>
+
+            <!-- Metrics from Snowflake -->
+            <div class="card card-metrics animate-in" style="animation-delay:0.1s">
+                <div class="card-header">
+                    <span class="card-title">📊 Environmental Metrics</span>
+                    <span class="card-source" id="metricsSource">Loading...</span>
+                </div>
+                <div class="metrics-list" id="metricsList"></div>
+            </div>
+
+            <!-- Globe -->
+            <div class="card card-globe animate-in" style="animation-delay:0.15s">
+                <div class="card-header">
+                    <span class="card-title">🌐 Earth</span>
+                </div>
+                <div class="globe-scene">
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <div class="globe">
+                        <div class="continent c1"></div>
+                        <div class="continent c2"></div>
+                        <div class="continent c3"></div>
+                        <div class="clouds"></div>
+                    </div>
+                </div>
+                <div class="eco-stats" id="ecoStats"></div>
+            </div>
+
+            <!-- Trend Chart -->
+            <div class="card card-chart animate-in" style="animation-delay:0.2s">
+                <div class="card-header">
+                    <span class="card-title">📈 Temperature Anomaly</span>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-dataset="temperature">🌡️ Temp</button>
+                        <button class="chart-btn" data-dataset="co2">💨 CO₂</button>
+                        <button class="chart-btn" data-dataset="seaLevel">🌊 Sea</button>
+                        <button class="chart-btn" data-dataset="arcticIce">🧊 Ice</button>
+                    </div>
+                </div>
+                <div class="chart-wrap" id="chartWrap">
+                    <svg id="trendChart" viewBox="0 0 600 220"></svg>
+                </div>
+                <div class="tooltip" id="chartTooltip"></div>
+            </div>
+
+            <!-- Gemini Insights -->
+            <div class="card card-insights animate-in" style="animation-delay:0.25s">
+                <div class="card-header">
+                    <span class="card-title">🧠 AI Climate Insights</span>
+                    <span class="card-badge badge-ai">✨ Gemini</span>
+                </div>
+                <div id="insightsList" class="insights-list"></div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card card-actions animate-in" style="animation-delay:0.3s">
+                <div class="card-header">
+                    <span class="card-title">✅ Your Climate Actions</span>
+                    <span class="action-counter" id="actionCounter">0 / 8</span>
+                </div>
+                <div class="actions-list" id="actionsList"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ TAB: AI Assistant ═══ -->
+    <section class="tab-content" id="tab-assistant">
+        <div class="assistant-layout">
+            <div class="card chat-card">
+                <div class="card-header">
+                    <span class="card-title">🤖 Climate Assistant</span>
+                    <span class="card-badge badge-backboard" id="backboardStatus">Backboard Memory</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="chat-msg bot">
+                        <div class="msg-avatar">🌱</div>
+                        <div class="msg-bubble">
+                            Hi! I'm your Planetary Pulse climate assistant. I can help you understand environmental data, calculate your carbon footprint, or create a personalized action plan. What would you like to explore?
+                        </div>
+                    </div>
+                </div>
+                <form class="chat-input" id="chatForm">
+                    <input type="text" id="chatInput" placeholder="Ask about climate, carbon footprint, sustainability..." autocomplete="off">
+                    <button type="submit" class="btn-send">Send ➤</button>
+                </form>
+            </div>
+            <div class="card memory-card">
+                <div class="card-header">
+                    <span class="card-title">🧠 Persistent Memory</span>
+                    <span class="card-badge">Backboard</span>
+                </div>
+                <p class="memory-desc">The assistant remembers facts from previous conversations using Backboard's persistent memory. Each session builds on the last.</p>
+                <div class="memory-facts" id="memoryFacts"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ TAB: Calculator ═══ -->
+    <section class="tab-content" id="tab-calculator">
+        <div class="calc-layout">
+            <div class="card calc-form-card">
+                <div class="card-header">
+                    <span class="card-title">🧮 Personal Carbon Calculator</span>
+                </div>
+                <form class="calc-form" id="calcForm">
+                    <div class="calc-section">
+                        <h3>🚗 Transportation</h3>
+                        <div class="calc-row">
+                            <label>Daily commute distance</label>
+                            <div class="slider-group">
+                                <input type="range" id="commuteKm" min="0" max="100" value="25">
+                                <span class="slider-val" id="commuteVal">25 km</span>
+                            </div>
+                        </div>
+                        <div class="calc-row">
+                            <label>Commute mode</label>
+                            <select id="commuteMode">
+                                <option value="car">🚗 Car (gasoline)</option>
+                                <option value="car_suv">🚙 SUV / Pickup</option>
+                                <option value="car_ev">⚡ Electric Vehicle</option>
+                                <option value="bus">🚌 Bus</option>
+                                <option value="train">🚆 Train</option>
+                                <option value="subway">🚇 Subway</option>
+                                <option value="bike">🚲 Bicycle</option>
+                                <option value="walk">🚶 Walking</option>
+                            </select>
+                        </div>
+                        <div class="calc-row">
+                            <label>Commute days per week</label>
+                            <div class="slider-group">
+                                <input type="range" id="commuteDays" min="0" max="7" value="5">
+                                <span class="slider-val" id="daysVal">5 days</span>
+                            </div>
+                        </div>
+                        <div class="calc-row">
+                            <label>Flights per year</label>
+                            <div class="slider-group">
+                                <input type="range" id="flightsYear" min="0" max="20" value="3">
+                                <span class="slider-val" id="flightsVal">3 flights</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="calc-section">
+                        <h3>🥩 Diet</h3>
+                        <div class="calc-row">
+                            <label>Your diet type</label>
+                            <select id="dietType">
+                                <option value="heavy_meat">🍖 Heavy meat (daily)</option>
+                                <option value="medium_meat" selected>🍗 Medium meat (few times/week)</option>
+                                <option value="low_meat">🥗 Low meat (weekly)</option>
+                                <option value="vegetarian">🥬 Vegetarian</option>
+                                <option value="vegan">🌱 Vegan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-section">
+                        <h3>🏠 Home Energy</h3>
+                        <div class="calc-row">
+                            <label>Electricity source</label>
+                            <select id="energySource">
+                                <option value="coal_grid">Coal-heavy grid</option>
+                                <option value="mixed_grid" selected>Mixed grid</option>
+                                <option value="gas_heating">Natural gas</option>
+                                <option value="renewable_grid">Mostly renewable</option>
+                                <option value="solar_100">100% solar/renewable</option>
+                            </select>
+                        </div>
+                        <div class="calc-row">
+                            <label>Home size</label>
+                            <select id="homeSize">
+                                <option value="small_apt">Small apartment</option>
+                                <option value="medium_house" selected>Medium house</option>
+                                <option value="large_house">Large house</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="calc-section">
+                        <h3>🛍️ Consumption</h3>
+                        <div class="calc-row">
+                            <label>Shopping & consumption level</label>
+                            <select id="consumptionLevel">
+                                <option value="minimal">Minimal (buy only essentials)</option>
+                                <option value="average" selected>Average</option>
+                                <option value="high">High (frequent shopping, gadgets)</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card calc-result-card">
+                <div class="card-header">
+                    <span class="card-title">📊 Your Carbon Footprint</span>
+                </div>
+                <div class="result-hero">
+                    <div class="result-big-num" id="resultTotal">--</div>
+                    <div class="result-unit">tonnes CO₂ / year</div>
+                </div>
+                <div class="result-comparison" id="resultComparison"></div>
+                <div class="result-breakdown" id="resultBreakdown"></div>
+                <div class="result-recommendations" id="resultRecommendations"></div>
+                <div class="result-sources">
+                    Sources: IPCC AR6, EPA, Our World in Data, Global Carbon Project 2024
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ TAB: Carbon Credits ═══ -->
+    <section class="tab-content" id="tab-credits">
+        <div class="credits-layout">
+            <div class="card portfolio-card">
+                <div class="card-header">
+                    <span class="card-title">🪙 Your Carbon Credit Portfolio</span>
+                    <span class="card-badge badge-solana">◎ Solana</span>
+                </div>
+                <div class="portfolio-stats" id="portfolioStats"></div>
+                <div class="portfolio-offsets" id="portfolioOffsets"></div>
+            </div>
+            <div class="card marketplace-card">
+                <div class="card-header">
+                    <span class="card-title">🏪 Credit Marketplace</span>
+                    <div class="market-filters">
+                        <select id="creditFilter">
+                            <option value="">All types</option>
+                            <option value="reforestation">🌳 Reforestation</option>
+                            <option value="renewable_energy">⚡ Renewable Energy</option>
+                            <option value="blue_carbon">🌊 Blue Carbon</option>
+                            <option value="dac">🏭 Direct Air Capture</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="credits-grid" id="creditsGrid"></div>
+            </div>
+            <div class="card impact-card">
+                <div class="card-header">
+                    <span class="card-title">🌍 Your Environmental Impact</span>
+                </div>
+                <div class="impact-equivalents" id="impactEquivalents"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer>
+        <p>🌍 Built for the <strong>Build for the Planet</strong> Challenge — Earth Day 2025</p>
+        <p class="footer-tech">
+            Backboard · Auth0 · Google Gemini · Snowflake · GitHub Copilot · Solana
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
