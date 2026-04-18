@@ -124,17 +124,23 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`\n🌍 Planetary Pulse running at http://localhost:${PORT}`);
-  console.log(`   Dashboard: http://localhost:${PORT}`);
-  console.log(`   API Health: http://localhost:${PORT}/api/health\n`);
-});
+// Export for Vercel serverless
+module.exports = app;
 
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`❌ Port ${PORT} is already in use. Set PORT env var or kill the existing process.`);
-  } else {
-    console.error('❌ Server error:', err.message);
-  }
-  process.exit(1);
-});
+// Start server only when running directly (not on Vercel)
+if (!process.env.VERCEL) {
+  const server = app.listen(PORT, () => {
+    console.log(`\n🌍 Planetary Pulse running at http://localhost:${PORT}`);
+    console.log(`   Dashboard: http://localhost:${PORT}`);
+    console.log(`   API Health: http://localhost:${PORT}/api/health\n`);
+  });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`❌ Port ${PORT} is already in use. Set PORT env var or kill the existing process.`);
+    } else {
+      console.error('❌ Server error:', err.message);
+    }
+    process.exit(1);
+  });
+}
