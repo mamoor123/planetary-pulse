@@ -143,7 +143,7 @@ Used throughout development for:
 
 ```bash
 git clone <repo>
-cd planetary-pulse
+cd Planetary-Pulse
 npm install
 cp .env.example .env  # Optional: add API keys for real integrations
 npm start

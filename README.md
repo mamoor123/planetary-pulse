@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/mamoor123/planetary-pulse/main/public/favicon.svg" alt="Planetary Pulse" width="120"/>
+<img src="https://raw.githubusercontent.com/mamoor123/Planetary-Pulse/main/public/favicon.svg" alt="Planetary Pulse" width="120"/>
 
 <br/>
 
@@ -531,8 +531,8 @@ planetary-pulse/
 
 ```bash
 # Clone
-git clone https://github.com/mamoor123/planetary-pulse.git
-cd planetary-pulse
+git clone https://github.com/mamoor123/Planetary-Pulse.git
+cd Planetary-Pulse
 
 # Install
 npm install
@@ -714,8 +714,8 @@ open http://localhost:3000
 ## 🤝 Contributing
 
 ```bash
-git clone https://github.com/mamoor123/planetary-pulse.git
-cd planetary-pulse
+git clone https://github.com/mamoor123/Planetary-Pulse.git
+cd Planetary-Pulse
 npm install
 npm start        # → http://localhost:3000
 npm run lint     # ESLint check
@@ -745,6 +745,6 @@ Found a bug? Open an issue. Have an idea? Submit a PR. All contributions welcome
 
 <br/><br/>
 
-[⬆ Back to Top](#-planetary-pulse)
+[⬆ Back to Top](#-planetary-pulse-1)
 
 </div>
